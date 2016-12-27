@@ -27,10 +27,15 @@ public class MainActivity extends AppCompatActivity {
         System.out.println(filenames);
         Log.v("LOL", filenames[0]);
 
+        String content = getFileContent(getAssets());
+        Log.v("LOL", content);
+
+
     }
 
 
     private native String[] getFilenameInAssets(AssetManager pAssetManager);
+    private native String getFileContent(AssetManager pAssetManager);
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
