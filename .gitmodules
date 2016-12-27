@@ -1,0 +1,3 @@
+[submodule "sudoku-recognizer"]
+	path = sudoku-recognizer
+	url = git@github.com:BenNG/sudoku-recognizer.git

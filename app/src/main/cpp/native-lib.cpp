@@ -3,6 +3,7 @@
 #include <android/asset_manager_jni.h>
 #include <opencv2/core.hpp>
 #include <android/asset_manager.h>
+#include "../../../../../USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib/sudoku.h"
 
 
 extern "C"
@@ -11,6 +12,13 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
         JNIEnv *env,
         jobject /* this */) {
     std::string hello = "Hello from C++";
+
+    
+
+    // getKnn();
+
+
+
     return env->NewStringUTF(hello.c_str());
 }
 
