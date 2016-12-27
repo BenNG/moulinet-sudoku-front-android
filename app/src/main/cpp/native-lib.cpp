@@ -1,6 +1,7 @@
 #include <jni.h>
 #include <string>
 #include <android/asset_manager_jni.h>
+#include <opencv2/core.hpp>
 #include <android/asset_manager.h>
 
 

@@ -4,6 +4,7 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+set(pathToSudokuLib /keep/Repo/USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib)
 set(pathToProject /keep/Repo/sudoku/Android-app)
 set(pathToOpenCv /home/benng/Downloads/open-cv-3-1-0-android-sdk)
 
@@ -13,6 +14,7 @@ set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 include_directories(${pathToOpenCv}/sdk/native/jni/include)
 
 add_library( lib_opencv SHARED IMPORTED )
+add_library( lib_sudoku SHARED IMPORTED )
 
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
@@ -28,7 +30,7 @@ add_library( # Sets the name of the library.
              # Provides a relative path to your source file(s).
              # Associated headers in the same location as their source
              # file are automatically included.
-             src/main/cpp/native-lib.cpp )
+             src/main/cpp/native-lib.cpp ${pathToSudokuLib}/sudoku.cpp )
 
 
 set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${pathToProject}/app/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
