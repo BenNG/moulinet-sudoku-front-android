@@ -4,6 +4,16 @@
 
 cmake_minimum_required(VERSION 3.4.1)
 
+set(pathToProject /keep/Repo/sudoku/Android-app)
+set(pathToOpenCv /home/benng/Downloads/open-cv-3-1-0-android-sdk)
+
+set(CMAKE_VERBOSE_MAKEFILE on)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+
+include_directories(${pathToOpenCv}/sdk/native/jni/include)
+
+add_library( lib_opencv SHARED IMPORTED )
+
 # Creates and names a library, sets it as either STATIC
 # or SHARED, and provides the relative paths to its source code.
 # You can define multiple libraries, and CMake builds it for you.
@@ -19,6 +29,10 @@ add_library( # Sets the name of the library.
              # Associated headers in the same location as their source
              # file are automatically included.
              src/main/cpp/native-lib.cpp )
+
+
+set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${pathToProject}/app/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
+
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because system libraries are included in the search path by
@@ -42,4 +56,4 @@ target_link_libraries( # Specifies the target library.
 
                        # Links the target library to the log library
                        # included in the NDK.
-                       ${log-lib} android)
+                       ${log-lib} lib_opencv android)
