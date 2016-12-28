@@ -27,6 +27,11 @@ android {
             path "CMakeLists.txt"
         }
     }
+    sourceSets {
+    main {
+        assets.srcDirs = ['../sudoku-recognizer/assets']
+    }
+  }
 }
 
 dependencies {

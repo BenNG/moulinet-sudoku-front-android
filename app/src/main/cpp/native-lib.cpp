@@ -5,21 +5,59 @@
 #include <android/asset_manager.h>
 #include "../../../../../USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib/sudoku.h"
 
+using namespace cv;
 
 extern "C"
 jstring
 Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
-        JNIEnv *env,
-        jobject /* this */) {
+        JNIEnv* env,
+        jobject javaThis,
+        jobject pAssetManager) {
     std::string hello = "Hello from C++";
 
+
+
+
+    const char* filename = "raw-features.yml";
+    AAssetManager* assetManager = AAssetManager_fromJava(env, pAssetManager);
+
+    /*
+    All mode:
+        - AASSET_MODE_UNKNOWN: Not known how the data is to be accessed
+        - AASSET_MODE_RANDOM: Read chunks, and seek forward and backward
+        - AASSET_MODE_STREAMING: Read sequentially, with an occasional
+          forward seek
+        - AASSET_MODE_BUFFER: Attempt to load contents into memory,
+          for fast small reads
+    */
+    AAsset* file = AAssetManager_open(
+            assetManager,
+            filename,
+            AASSET_MODE_UNKNOWN);
+
+    if (file == NULL)
+    {
+        return env->NewStringUTF("ERROR: Can not open file...");
+    }
+
+    long size = AAsset_getLength(file);
+    char* buffer = new char[size];
+    AAsset_read (file, buffer, size);
+
+    AAsset_close(file);
+
+    FileStorage fs(buffer, FileStorage::READ | FileStorage::MEMORY);
+
+    // jstring jstr = env->NewStringUTF(buffer);
+
+    // delete[] buffer;
+    // buffer = NULL;
+
+
+    Ptr<ml::KNearest> knn = getKnn(fs);
     
-
-    // getKnn();
-
-
-
-    return env->NewStringUTF(hello.c_str());
+    // return env->NewStringUTF(hello.c_str());
+    return env->NewStringUTF(buffer);
 }
 
 
@@ -85,7 +123,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_getFileContent(
         jobject javaThis,
         jobject pAssetManager)
 {
-    const char* filename = "file.txt";
+    const char* filename = "raw-features.yml";
     AAssetManager* assetManager = AAssetManager_fromJava(env, pAssetManager);
 
     /*
