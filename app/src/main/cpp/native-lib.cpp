@@ -10,18 +10,24 @@ using namespace cv;
 
 extern "C"
 jstring
-Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
+Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_grab(
         JNIEnv* env,
         jobject javaThis,
+        jstring fileName,
         jobject pAssetManager) {
     std::string hello = "Hello from C++";
 
-    stringstream ss;
+    const char *nativeFileName= env->GetStringUTFChars(fileName, JNI_FALSE);
+    stringstream ss, fileName_ss;
 
 
     const char* filename = "raw-features.yml";
-    const char* s0_str = "puzzles/s0.jpg";
+    fileName_ss << "puzzles/";
+    fileName_ss << nativeFileName;
+    fileName_ss << ".jpg";
     AAssetManager* assetManager = AAssetManager_fromJava(env, pAssetManager);
+
+
 
     /*
     All mode:
@@ -39,7 +45,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
 
     AAsset* s0 = AAssetManager_open(
             assetManager,
-            s0_str,
+            fileName_ss.str().c_str(),
             AASSET_MODE_UNKNOWN);
 
     if (file == NULL)
@@ -48,7 +54,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
     }
     if (s0 == NULL)
     {
-        return env->NewStringUTF("ERROR: Can not open s0...");
+        return env->NewStringUTF(fileName_ss.str().c_str());
     }
 
     long size = AAsset_getLength(file);
