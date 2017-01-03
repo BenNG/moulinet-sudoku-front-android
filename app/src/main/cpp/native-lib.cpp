@@ -2,6 +2,7 @@
 #include <string>
 #include <android/asset_manager_jni.h>
 #include <opencv2/core.hpp>
+#include <sstream>
 #include <android/asset_manager.h>
 #include "../../../../../USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib/sudoku.h"
 
@@ -15,10 +16,11 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
         jobject pAssetManager) {
     std::string hello = "Hello from C++";
 
-
+    stringstream ss;
 
 
     const char* filename = "raw-features.yml";
+    const char* s0_str = "puzzles/s0.jpg";
     AAssetManager* assetManager = AAssetManager_fromJava(env, pAssetManager);
 
     /*
@@ -35,18 +37,51 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
             filename,
             AASSET_MODE_UNKNOWN);
 
+    AAsset* s0 = AAssetManager_open(
+            assetManager,
+            s0_str,
+            AASSET_MODE_UNKNOWN);
+
     if (file == NULL)
     {
         return env->NewStringUTF("ERROR: Can not open file...");
+    }
+    if (s0 == NULL)
+    {
+        return env->NewStringUTF("ERROR: Can not open s0...");
     }
 
     long size = AAsset_getLength(file);
     char* buffer = new char[size];
     AAsset_read (file, buffer, size);
 
+    int size_s0 = AAsset_getLength(s0);
+    char* buffer_s0 = new char[size_s0];
+    AAsset_read (s0, buffer_s0, size_s0);
+
+    Mat rawData  =  Mat( 1, size_s0, CV_8UC1, buffer_s0 );
+
+    Mat decodedImage  =  imdecode( rawData, CV_8UC1);
+    if ( decodedImage.data == NULL )
+    {
+        return env->NewStringUTF("jpg decoding error");
+        // Error reading raw image data
+    }
+
     AAsset_close(file);
+    AAsset_close(s0);
+
+    ss << size_s0;
+
 
     FileStorage fs(buffer, FileStorage::READ | FileStorage::MEMORY);
+
+    // Mat rawData  =  Mat( 1, size_s0, CV_8UC1, buffer_s0);
+
+
+
+
+
 
     // jstring jstr = env->NewStringUTF(buffer);
 
@@ -55,9 +90,12 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_stringFromJNI(
 
 
     Ptr<ml::KNearest> knn = getKnn(fs);
-    
-    // return env->NewStringUTF(hello.c_str());
-    return env->NewStringUTF(buffer);
+
+    string res = grab(decodedImage, knn);
+
+
+    return env->NewStringUTF(res.c_str());
+    // return env->NewStringUTF(ss.str().c_str()); // OK
 }
 
 
