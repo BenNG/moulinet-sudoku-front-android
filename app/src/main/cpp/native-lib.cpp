@@ -4,7 +4,7 @@
 #include <opencv2/core.hpp>
 #include <sstream>
 #include <android/asset_manager.h>
-#include "../../../../../USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib/sudoku.h"
+#include "../../../../sudoku-recognizer/src/lib/sudoku.h"
 
 using namespace cv;
 
@@ -97,7 +97,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_grab(
 
     Ptr<ml::KNearest> knn = getKnn(fs);
 
-    string res = grab(decodedImage, knn);
+    string res = grabNumbers(decodedImage, knn);
 
 
     return env->NewStringUTF(res.c_str());
