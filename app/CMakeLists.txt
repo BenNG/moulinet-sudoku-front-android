@@ -1,61 +1,28 @@
-# Sets the minimum version of CMake required to build the native
-# library. You should either keep the default value or only pass a
-# value of 3.4.0 or lower.
-
 cmake_minimum_required(VERSION 3.4.1)
+set(CMAKE_VERBOSE_MAKEFILE on)
 
 set(pathToSudokuLib /keep/Repo/USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib)
 set(pathToProject /keep/Repo/moulinet-sudoku-app)
 set(pathToOpenCv /home/benng/Downloads/open-cv-3-1-0-android-sdk)
+# from here: https://github.com/gcesarmza/curl-android-ios
+set(pathToCurl /keep/Repo/curl-android-ios/curl)
+set(pathToCurlPrebuilt /keep/Repo/curl-android-ios/prebuilt-with-ssl/android)
 
-set(CMAKE_VERBOSE_MAKEFILE on)
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
 
-include_directories(${pathToOpenCv}/sdk/native/jni/include)
+include_directories( ${pathToOpenCv}/sdk/native/jni/include ${pathToCurl}/include )
 
 add_library( lib_opencv SHARED IMPORTED )
 add_library( lib_sudoku SHARED IMPORTED )
+add_library( lib_gmath STATIC IMPORTED )
 
-# Creates and names a library, sets it as either STATIC
-# or SHARED, and provides the relative paths to its source code.
-# You can define multiple libraries, and CMake builds it for you.
-# Gradle automatically packages shared libraries with your APK.
+set_target_properties(lib_gmath PROPERTIES IMPORTED_LOCATION ${pathToCurlPrebuilt}/${ANDROID_ABI}/libcurl.a)
 
-add_library( # Sets the name of the library.
-             native-lib
-
-             # Sets the library as a shared library.
-             SHARED
-
-             # Provides a relative path to your source file(s).
-             # Associated headers in the same location as their source
-             # file are automatically included.
-             src/main/cpp/native-lib.cpp ${pathToSudokuLib}/sudoku.cpp )
-
+add_library( native-lib SHARED src/main/cpp/native-lib.cpp ${pathToSudokuLib}/sudoku.cpp )
 
 set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${pathToProject}/app/src/main/jniLibs/${ANDROID_ABI}/libopencv_java3.so)
 
+find_library( log-lib log )
 
-# Searches for a specified prebuilt library and stores the path as a
-# variable. Because system libraries are included in the search path by
-# default, you only need to specify the name of the public NDK library
-# you want to add. CMake verifies that the library exists before
-# completing its build.
 
-find_library( # Sets the name of the path variable.
-              log-lib
-
-              # Specifies the name of the NDK library that
-              # you want CMake to locate.
-              log )
-
-# Specifies libraries CMake should link to your target library. You
-# can link multiple libraries, such as libraries you define in the
-# build script, prebuilt third-party libraries, or system libraries.
-
-target_link_libraries( # Specifies the target library.
-                       native-lib
-
-                       # Links the target library to the log library
-                       # included in the NDK.
-                       ${log-lib} lib_opencv android)
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+target_link_libraries( native-lib ${log-lib} lib_opencv android lib_gmath)
