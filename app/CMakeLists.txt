@@ -5,7 +5,7 @@
 cmake_minimum_required(VERSION 3.4.1)
 
 set(pathToSudokuLib /keep/Repo/USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib)
-set(pathToProject /keep/Repo/sudoku/Android-app)
+set(pathToProject /keep/Repo/moulinet-sudoku-app)
 set(pathToOpenCv /home/benng/Downloads/open-cv-3-1-0-android-sdk)
 
 set(CMAKE_VERBOSE_MAKEFILE on)
