@@ -4,6 +4,10 @@
 - copy open-cv-3-1-0-android-sdk/sdk/native/libs in Android-app/app/src/main/jniLibs/
 
 ## Tips
+- DO NOT forget to add internet permission to you app in the manifest
+```
+<uses-permission android:name="android.permission.INTERNET" />
+```
 - networking and ndk:
   - Volley (java)
   - Retrofit (java)

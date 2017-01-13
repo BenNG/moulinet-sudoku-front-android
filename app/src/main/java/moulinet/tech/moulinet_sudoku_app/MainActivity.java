@@ -20,17 +20,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        String initialStateOfThePuzzle = grabNumbers("s0", getAssets());
+        Log.i("LOL", initialStateOfThePuzzle);
+
+
+
+        String solvedPuzzle = sudokuSolver("006400750005082060007306089050130900093000840002048070580209600070860200029003400");
+
+
         // Example of a call to a native method
         TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(grab("s0", getAssets()));
+        tv.setText(solvedPuzzle);
 
         String[] filenames = getFilenameInAssets(getAssets());
 
         System.out.println(filenames);
-        Log.v("LOL", filenames[0]);
+        Log.i("LOL", filenames[0]);
 
         String content = getFileContent(getAssets());
-        Log.v("LOL", content);
+        Log.i("LOL", content);
+
+        Log.i("LOL", solvedPuzzle);
+
 
 
     }
@@ -38,11 +49,12 @@ public class MainActivity extends AppCompatActivity {
 
     private native String[] getFilenameInAssets(AssetManager pAssetManager);
     private native String getFileContent(AssetManager pAssetManager);
+    private native String sudokuSolver(String initialStateOfTheSudoku);
 
     /**
      * A native method that is implemented by the 'native-lib' native library,
      * which is packaged with this application.
      */
-    public native String grab(String fileName, AssetManager pAssetManager);
+    public native String grabNumbers(String fileName, AssetManager pAssetManager);
 
 }
