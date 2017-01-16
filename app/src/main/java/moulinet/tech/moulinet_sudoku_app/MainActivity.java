@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        String solvedPuzzle = sudokuSolver("006400750005082060007306089050130900093000840002048070580209600070860200029003400");
+        String solvedPuzzle = sudokuSolver(initialStateOfThePuzzle);
 
 
         // Example of a call to a native method
