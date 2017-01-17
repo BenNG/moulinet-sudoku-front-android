@@ -58,6 +58,48 @@ WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 }
 using namespace cv;
 
+
+
+extern "C" void
+Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_loadImage(
+        JNIEnv *env,
+        jobject javaThis,
+        jstring fileName,
+        jlong addrImage,
+        jobject pAssetManager)
+{
+
+
+    Mat &img_input = *(Mat *) addrImage;
+    const char *nativeFileName = env->GetStringUTFChars(fileName, JNI_FALSE);
+    stringstream fileName_ss;
+
+    fileName_ss << "puzzles/";
+    fileName_ss << nativeFileName;
+    fileName_ss << ".jpg";
+
+    AAssetManager *assetManager = AAssetManager_fromJava(env, pAssetManager);
+
+    AAsset *file = AAssetManager_open(
+            assetManager,
+            fileName_ss.str().c_str(),
+            AASSET_MODE_UNKNOWN);
+
+    long size = AAsset_getLength(file);
+    char *buffer = new char[size];
+    AAsset_read(file, buffer, size);
+
+    Mat rawData = Mat(1, size, CV_8UC1, buffer);
+
+    img_input = imdecode(rawData, CV_8UC1);
+    if (img_input.data == NULL)
+    {
+        throw std::logic_error("jpg decoding error");
+    }
+
+}
+
+
 /**
  * This function will parse the file in assets/puzzles/{fileName}.jpg and return the initial state of the puzzle inside the file
  *
