@@ -6,6 +6,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
+import org.opencv.core.Mat;
+
 public class MainActivity extends AppCompatActivity {
 
     // Used to load the 'native-lib' library on application startup.
@@ -23,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
         String initialStateOfThePuzzle = grabNumbers("s0", getAssets());
         Log.i("LOL", initialStateOfThePuzzle);
 
-
+        Mat mat;
 
         String solvedPuzzle = sudokuSolver(initialStateOfThePuzzle);
 

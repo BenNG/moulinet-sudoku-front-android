@@ -19,3 +19,9 @@
 16/1/2017 bad day ! when commiting on sudoku-recognizer test has to run if not it's not going to work on android for sure
 create the script check.sh in order to not loose the entire afternoon
 this script is usefull when invoking just before launching the app in android studio run -> edit config -> external tool
+
+- when importing a module (opencv for java) seems like android studio do NOT like symbolic link so:
+ - copy opencv-3.1-android-sdk somewhere
+ - in android studio: import module -> opencv-3.1-android-sdk.sdk/java
+ - change the build.gradle to match the app/build.gradle
+ - in app go to open module settings and and the opencv lib as a dependency to your app
