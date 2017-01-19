@@ -12,6 +12,8 @@ import org.opencv.android.Utils;
 import org.opencv.core.Mat;
 
 public class MainActivity extends AppCompatActivity {
+// Log.i("LOL", initialStateOfThePuzzle);
+
 
     // Used to load the 'native-lib' library on application startup.
     static {
@@ -27,46 +29,21 @@ public class MainActivity extends AppCompatActivity {
 
         String fileNumber = "s0";
 
+        // load image
         Mat img_input = new Mat();
         loadImage(fileNumber, img_input.getNativeObjAddr(), getAssets());
 
+        solve(img_input.getNativeObjAddr(), getAssets());
 
-        String initialStateOfThePuzzle = grabNumbers(fileNumber, getAssets());
-        Log.i("LOL", initialStateOfThePuzzle);
-
+        // setting up display stuff
         ImageView imageVIewInput = (ImageView)findViewById(R.id.imageViewInput);
-
         Bitmap bitmapInput = Bitmap.createBitmap(img_input.cols(), img_input.rows(), Bitmap.Config.ARGB_8888);
         Utils.matToBitmap(img_input, bitmapInput);
         imageVIewInput.setImageBitmap(bitmapInput);
 
-        String solvedPuzzle = sudokuSolver(initialStateOfThePuzzle);
-
-
-        TextView tv = (TextView) findViewById(R.id.sample_text);
-        tv.setText(solvedPuzzle);
-
-        String[] filenames = getFilenameInAssets(getAssets());
-
-        System.out.println(filenames);
-        Log.i("LOL", filenames[0]);
-
-        String content = getFileContent(getAssets());
-        Log.i("LOL", content);
-
-        Log.i("LOL", solvedPuzzle);
-
     }
 
-    private native String[] getFilenameInAssets(AssetManager pAssetManager);
     private native void loadImage(String fileName, long img, AssetManager pAssetManager);
-    private native String getFileContent(AssetManager pAssetManager);
-    private native String sudokuSolver(String initialStateOfTheSudoku);
-
-    /**
-     * A native method that is implemented by the 'native-lib' native library,
-     * which is packaged with this application.
-     */
-    public native String grabNumbers(String fileName, AssetManager pAssetManager);
+    private native void solve(long img, AssetManager pAssetManager);
 
 }

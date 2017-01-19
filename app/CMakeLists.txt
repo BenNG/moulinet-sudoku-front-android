@@ -8,12 +8,9 @@ set(pathToOpenCv /home/benng/Downloads/open-cv-3-1-0-android-sdk)
 
 set(pathToCurlPrebuilt /keep/Downloads/libcurl_OpenSSL1.0.1s/libs)
 
-
-
 include_directories( ${pathToOpenCv}/sdk/native/jni/include /keep/Downloads/libcurl_OpenSSL1.0.1s/include )
 
 find_package(ZLIB REQUIRED) #FOR CURL
-
 
 add_library( lib_opencv SHARED IMPORTED )
 add_library( lib_sudoku SHARED IMPORTED )
@@ -27,6 +24,5 @@ set_target_properties(lib_opencv PROPERTIES IMPORTED_LOCATION ${pathToProject}/a
 
 find_library( log-lib log )
 
-
-set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++11")
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
 target_link_libraries( native-lib ${log-lib} lib_opencv android  ${ZLIB_LIBRARIES} lib_curl)
