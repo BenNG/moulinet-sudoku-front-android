@@ -4,8 +4,7 @@
 #include <opencv2/core.hpp>
 #include <sstream>
 #include <android/asset_manager.h>
-#include "../../../../sudost
-ku-recognizer/src/lib/sudoku.h"
+#include "../../../../sudoku-recognizer/src/lib/sudoku.h"
 
 #include <curl/curl.h>
 
