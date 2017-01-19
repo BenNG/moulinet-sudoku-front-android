@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/moulinet-sudoku-app.iml" filepath="$PROJECT_DIR$/moulinet-sudoku-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/openCVLibrary310/openCVLibrary310.iml" filepath="$PROJECT_DIR$/openCVLibrary310/openCVLibrary310.iml" />
+      <module fileurl="file://$PROJECT_DIR$/sudoku-front-android.iml" filepath="$PROJECT_DIR$/sudoku-front-android.iml" />
     </modules>
   </component>
 </project>

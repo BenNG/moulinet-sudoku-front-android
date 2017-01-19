@@ -1,7 +1,11 @@
-## Moulinet sudoku app
+## sudoku-front-android
 
 - mettre la lib c en tant que submodule
-- copy open-cv-3-1-0-android-sdk/sdk/native/libs in Android-app/app/src/main/jniLibs/
+- if you have this error: 
+```
+Error:error: '/keep/Repo/sudoku-front-android/app/src/main/jniLibs/armeabi/libopencv_java3.so', needed by '../../../../build/intermediates/cmake/debug/obj/armeabi/libnative-lib.so', missing and no known rule to make it
+```
+then copy open-cv-3-1-0-android-sdk/sdk/native/libs in sudoku-front-android/app/src/main/jniLibs/
 
 ## Tips
 - DO NOT forget to add internet permission to you app in the manifest
