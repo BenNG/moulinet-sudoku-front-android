@@ -43,7 +43,16 @@ import java.util.ListIterator;
 
 public class MainActivity extends AppCompatActivity implements CameraBridgeViewBase.CvCameraViewListener2 {
     private static final String  TAG                 = "OCVSample::Activity";
-    
+
+
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        System.loadLibrary("native-lib");
+        System.loadLibrary("opencv_java3");
+
+    }
+
+
     public static final int      VIEW_MODE_RGBA      = 0;
     public static final int      VIEW_MODE_HIST      = 1;
     public static final int      VIEW_MODE_CANNY     = 2;
@@ -217,6 +226,7 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
     public Mat onCameraFrame(CameraBridgeViewBase.CvCameraViewFrame inputFrame) {
         Mat rgba = inputFrame.rgba();
+        Mat gray = inputFrame.gray();
         Size sizeRgba = rgba.size();
 
         Mat rgbaInnerWindow;
@@ -285,8 +295,8 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
                 break;
 
             case MainActivity.VIEW_MODE_SOBEL:
-                Mat gray = inputFrame.gray();
-                Mat grayInnerWindow = gray.submat(top, top + height, left, left + width);
+                Mat gray2 = inputFrame.gray();
+                Mat grayInnerWindow = gray2.submat(top, top + height, left, left + width);
                 rgbaInnerWindow = rgba.submat(top, top + height, left, left + width);
                 Imgproc.Sobel(grayInnerWindow, mIntermediateMat, CvType.CV_8U, 1, 1);
                 Core.convertScaleAbs(mIntermediateMat, mIntermediateMat, 10, 0);
@@ -336,9 +346,15 @@ public class MainActivity extends AppCompatActivity implements CameraBridgeViewB
 
 
 
+        prepro(gray.getNativeObjAddr(), getAssets());
 
 
-        return rgba;
+        return gray;
     }
+
+    private native void loadImage(String fileName, long img, AssetManager pAssetManager);
+    private native void solve(long img, AssetManager pAssetManager);
+    private native void prepro(long img, AssetManager pAssetManager);
+    private native void getKnn(long jobject, AssetManager pAssetManager);
 
 }

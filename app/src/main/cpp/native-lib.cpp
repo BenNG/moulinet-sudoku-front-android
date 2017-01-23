@@ -37,6 +37,8 @@ struct MemoryStruct {
     size_t size;
 };
 
+Ptr<ml::KNearest> knn;
+
 static size_t
 WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
 {
@@ -96,6 +98,100 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_loadImage(
     }
 
 }
+
+
+
+
+
+
+
+
+extern "C" void
+Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_prepro(
+        JNIEnv *env,
+        jobject javaThis,
+        jlong addrImage,
+        jobject pAssetManager)
+{
+
+
+
+    if(knn == nullptr){
+
+        // get knn --------------------------------
+
+        /*
+        All mode:
+            - AASSET_MODE_UNKNOWN: Not known how the data is to be accessed
+            - AASSET_MODE_RANDOM: Read chunks, and seek forward and backward
+            - AASSET_MODE_STREAMING: Read sequentially, with an occasional
+              forward seek
+            - AASSET_MODE_BUFFER: Attempt to load contents into memory,
+              for fast small reads
+        */
+        AAssetManager *assetManager = AAssetManager_fromJava(env, pAssetManager);
+        const char *filename = "raw-features.yml";
+        AAsset *file = AAssetManager_open(
+                assetManager,
+                filename,
+                AASSET_MODE_UNKNOWN);
+
+        if (file == NULL)
+        {
+            throw std::logic_error("ERROR: Can not open file...");
+        }
+
+        long size = AAsset_getLength(file);
+        char *buffer = new char[size];
+        AAsset_read(file, buffer, size);
+
+        FileStorage fs(buffer, FileStorage::READ | FileStorage::MEMORY);
+
+        delete[] buffer;
+        buffer = NULL;
+
+        knn = getKnn(fs);
+        // get knn - end --------------------------------
+
+        // LOGI("%s", initialStateOfTheSudoku.c_str());
+        LOGI("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+
+
+    }
+
+
+
+    Mat &img_input = *(Mat *) addrImage;
+
+
+    vector<Point> bigestApprox = findBigestBlob(img_input);
+
+    if(!bigestApprox.empty()){
+
+        extractionInformation extractInfo, extractInfo2;
+
+        extractInfo = extractPuzzle(img_input, bigestApprox);
+        Mat extractedPuzzle = extractInfo.image;
+
+        Mat finalExtraction = recursiveExtraction(extractedPuzzle);
+
+        string initialStateOfTheSudoku = grabNumbers(finalExtraction, knn);
+
+        string solution = "943682715657149823281573946792314568864957132315826479529431687436798251178265394";
+
+        Mat writen = writeOnPuzzle(finalExtraction, initialStateOfTheSudoku, solution);
+
+        warpPerspective(writen, img_input, extractInfo.transformation, img_input.size(), WARP_INVERSE_MAP, BORDER_TRANSPARENT);
+
+
+        // LOGI("%s", initialStateOfTheSudoku.c_str());
+
+    }
+
+}
+
+
+
 
 
 
@@ -161,7 +257,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_solve(
 
     string solution = askServerForSolution(initialStateOfTheSudoku);
 
-    Mat writen = writeOnPuzzle(finalExtraction, solution);
+    Mat writen = writeOnPuzzle(finalExtraction, initialStateOfTheSudoku, solution);
 
     // merge solved sudoku in original image
     warpPerspective(writen, img_input, extractInfo.transformation, img_input.size(), WARP_INVERSE_MAP, BORDER_TRANSPARENT);

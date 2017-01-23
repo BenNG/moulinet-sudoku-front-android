@@ -4,6 +4,7 @@
  - copy open-cv-3-1-0-android-sdk/sdk/native/libs in sudoku-front-android/app/src/main/jniLibs/
  
 ## Tips
+- partir de [ça](https://github.com/opencv/opencv/tree/master/samples/android/tutorial-3-cameracontrol)
 - DO NOT forget to add permissions !!!! to you app in the manifest
 ```
     
