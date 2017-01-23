@@ -4,10 +4,52 @@
  - copy open-cv-3-1-0-android-sdk/sdk/native/libs in sudoku-front-android/app/src/main/jniLibs/
  
 ## Tips
-- DO NOT forget to add internet permission to you app in the manifest
+- DO NOT forget to add permissions !!!! to you app in the manifest
 ```
-<uses-permission android:name="android.permission.INTERNET" />
+    
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+
 ```
+
+- fullscreen camera !
+in app/src/main/res/values/styles.xml edit: 
+
+```
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowFullscreen">true</item>
+    </style>
+
+
+</resources>
+
+```
+and use it like that : 
+```
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme.NoActionBar">
+```
+
+
 - networking and ndk:
   - Volley (java)
   - Retrofit (java)
@@ -25,3 +67,4 @@ this script is usefull when invoking just before launching the app in android st
  - in android studio: import module -> opencv-3.1-android-sdk.sdk/java
  - change the build.gradle to match the app/build.gradle
  - in app go to open module settings and and the opencv lib as a dependency to your app
+
