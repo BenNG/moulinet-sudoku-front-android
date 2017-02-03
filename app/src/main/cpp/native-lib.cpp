@@ -164,11 +164,14 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_prepro(
     Mat &img_input = *(Mat *) addrImage;
 
 
-    vector<Point> bigestApprox = findBigestBlob(img_input);
+
+    Mat preprocessed = preprocess(img_input.clone());
+
+    vector<Point> bigestApprox = findBiggestBlob(preprocessed, img_input);
 
     if(!bigestApprox.empty()){
 
-        extractionInformation extractInfo, extractInfo2;
+        ExtractionInformation extractInfo, extractInfo2;
 
         extractInfo = extractPuzzle(img_input, bigestApprox);
         Mat extractedPuzzle = extractInfo.image;
@@ -205,7 +208,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_solve(
 
     Mat &img_input = *(Mat *) addrImage;
 
-    extractionInformation extractInfo, extractInfo2;
+    ExtractionInformation extractInfo, extractInfo2;
 
 
 
@@ -245,8 +248,9 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_solve(
     // get knn - end --------------------------------
 
 
+    Mat preprocessed = preprocess(img_input.clone());
 
-    vector<Point> bigestApprox = findBigestBlob(img_input);
+    vector<Point> bigestApprox = findBiggestBlob(preprocessed, img_input);
 
     extractInfo = extractPuzzle(img_input, bigestApprox);
     Mat extractedPuzzle = extractInfo.image;
