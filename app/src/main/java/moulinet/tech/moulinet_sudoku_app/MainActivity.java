@@ -1,32 +1,33 @@
 package moulinet.tech.moulinet_sudoku_app;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
 
-import org.opencv.android.BaseLoaderCallback;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
-import org.opencv.android.LoaderCallbackInterface;
-import org.opencv.android.OpenCVLoader;
-import org.opencv.core.Mat;
-import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+        import java.text.SimpleDateFormat;
+        import java.util.Date;
+        import java.util.List;
+        import java.util.ListIterator;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.hardware.Camera.Size;
-import android.os.Bundle;
-import android.os.Environment;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.MotionEvent;
-import android.view.SubMenu;
-import android.view.SurfaceView;
-import android.view.View;
-import android.view.View.OnTouchListener;
-import android.view.WindowManager;
-import android.widget.Toast;
+        import org.opencv.android.BaseLoaderCallback;
+        import org.opencv.android.CameraBridgeViewBase.CvCameraViewFrame;
+        import org.opencv.android.LoaderCallbackInterface;
+        import org.opencv.android.OpenCVLoader;
+        import org.opencv.core.Mat;
+        import org.opencv.android.CameraBridgeViewBase.CvCameraViewListener2;
+
+        import android.annotation.SuppressLint;
+        import android.app.Activity;
+        import android.hardware.Camera.Size;
+        import android.os.Bundle;
+        import android.os.Environment;
+        import android.util.Log;
+        import android.view.Menu;
+        import android.view.MenuItem;
+        import android.view.MotionEvent;
+        import android.view.SubMenu;
+        import android.view.SurfaceView;
+        import android.view.View;
+        import android.view.View.OnTouchListener;
+        import android.view.WindowManager;
+        import android.widget.Toast;
 
 public class MainActivity extends Activity implements CvCameraViewListener2, OnTouchListener {
     private static final String TAG = "OCVSample::Activity";
