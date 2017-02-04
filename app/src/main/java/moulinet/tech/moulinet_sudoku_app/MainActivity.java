@@ -15,6 +15,7 @@ package moulinet.tech.moulinet_sudoku_app;
 
         import android.annotation.SuppressLint;
         import android.app.Activity;
+        import android.content.res.AssetManager;
         import android.hardware.Camera.Size;
         import android.os.Bundle;
         import android.os.Environment;
@@ -38,6 +39,14 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
     private SubMenu mColorEffectsMenu;
     private MenuItem[] mResolutionMenuItems;
     private SubMenu mResolutionMenu;
+
+
+    // Used to load the 'native-lib' library on application startup.
+    static {
+        System.loadLibrary("native-lib");
+        System.loadLibrary("opencv_java3");
+
+    }
 
     private BaseLoaderCallback mLoaderCallback = new BaseLoaderCallback(this) {
         @Override
@@ -73,7 +82,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
         mOpenCvCameraView = (Tutorial3View) findViewById(R.id.tutorial3_activity_java_surface_view);
 
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
-
+        
         mOpenCvCameraView.setCvCameraViewListener(this);
     }
 
@@ -111,7 +120,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
     }
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
-        return inputFrame.rgba();
+        Mat gray = inputFrame.gray();
+        prepro(gray.getNativeObjAddr(), getAssets());
+
+        return gray;
+
+
     }
 
     @Override
@@ -182,4 +196,10 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
         Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
         return false;
     }
+
+    private native void loadImage(String fileName, long img, AssetManager pAssetManager);
+    private native void solve(long img, AssetManager pAssetManager);
+    private native void prepro(long img, AssetManager pAssetManager);
+    private native void getKnn(long jobject, AssetManager pAssetManager);
+
 }

@@ -177,14 +177,41 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_prepro(
         Mat extractedPuzzle = extractInfo.image;
 
         Mat finalExtraction = recursiveExtraction(extractedPuzzle);
+        Mat resized;
+        resize(finalExtraction, resized, Size(640,360));
+
 
         string initialStateOfTheSudoku = grabNumbers(finalExtraction, knn);
 
-        string solution = "943682715657149823281573946792314568864957132315826479529431687436798251178265394";
 
-        Mat writen = writeOnPuzzle(finalExtraction, initialStateOfTheSudoku, solution);
+        if(initialStateOfTheSudoku == "009100056000060003005300904030750000520806097000012080601003500800070000740008600"){
+            LOGI("%s", "Yessssssssssssss");
+            LOGI("%s", initialStateOfTheSudoku.c_str());
 
-        warpPerspective(writen, img_input, extractInfo.transformation, img_input.size(), WARP_INVERSE_MAP, BORDER_TRANSPARENT);
+        }
+
+stringstream solution;
+        std::pair<bool, std::array<int, 81>> pair = solve(initialStateOfTheSudoku.c_str());
+
+        if (pair.first)
+        {
+            std::array<int, 81> ans = pair.second;
+            for (int i = 0; i < 81; i++)
+            {
+                solution << ans[i];
+            }
+            LOGI("%s", solution.str().c_str());
+
+
+            Mat writen = writeOnPuzzle(finalExtraction, initialStateOfTheSudoku, solution.str());
+
+            warpPerspective(writen, img_input, extractInfo.transformation, img_input.size(), WARP_INVERSE_MAP, BORDER_TRANSPARENT);
+
+
+        }
+
+
+
 
 
         // LOGI("%s", initialStateOfTheSudoku.c_str());
