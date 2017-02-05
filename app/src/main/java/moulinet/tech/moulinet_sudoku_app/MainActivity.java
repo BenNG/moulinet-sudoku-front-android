@@ -190,14 +190,11 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.i(TAG,"onTouch event");
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
-        String currentDateandTime = sdf.format(new Date());
-        String fileName = Environment.getExternalStorageDirectory().getPath() +
-                "/sample_picture_" + currentDateandTime + ".jpg";
-        mOpenCvCameraView.takePicture(fileName);
-        Toast.makeText(this, fileName + " saved", Toast.LENGTH_SHORT).show();
+        // mOpenCvCameraView.findFocus();
         return false;
     }
+
+
 
     private native void loadImage(String fileName, long img, AssetManager pAssetManager);
     private native void solve(long img, AssetManager pAssetManager);
