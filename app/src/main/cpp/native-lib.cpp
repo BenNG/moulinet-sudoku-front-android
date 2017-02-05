@@ -38,6 +38,7 @@ struct MemoryStruct {
 };
 
 Ptr<ml::KNearest> knn;
+Ptr<ml::SVM> svm;
 
 static size_t
 WriteMemoryCallback(void *contents, size_t size, size_t nmemb, void *userp)
@@ -116,7 +117,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_prepro(
 
 
 
-    if(knn == nullptr){
+    if(svm == nullptr){
 
         // get knn --------------------------------
 
@@ -150,7 +151,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_prepro(
         delete[] buffer;
         buffer = NULL;
 
-        knn = getKnn(fs);
+        svm = getSvm(fs);
         // get knn - end --------------------------------
 
         // LOGI("%s", initialStateOfTheSudoku.c_str());
@@ -181,7 +182,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_prepro(
         resize(finalExtraction, resized, Size(640,360));
 
 
-        string initialStateOfTheSudoku = grabNumbers(finalExtraction, knn);
+        string initialStateOfTheSudoku = grabNumbers(finalExtraction, svm);
 
 
         if(initialStateOfTheSudoku == "009100056000060003005300904030750000520806097000012080601003500800070000740008600"){
