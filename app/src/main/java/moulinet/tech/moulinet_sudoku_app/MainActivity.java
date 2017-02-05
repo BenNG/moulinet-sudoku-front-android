@@ -84,6 +84,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
         mOpenCvCameraView.setVisibility(SurfaceView.VISIBLE);
         
         mOpenCvCameraView.setCvCameraViewListener(this);
+
+        mOpenCvCameraView.setMaxFrameSize(640, 480);
     }
 
     @Override
