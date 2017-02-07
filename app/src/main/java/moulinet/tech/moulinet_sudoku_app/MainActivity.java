@@ -123,11 +123,8 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
 
     public Mat onCameraFrame(CvCameraViewFrame inputFrame) {
         Mat gray = inputFrame.gray();
-        prepro(gray.getNativeObjAddr(), getAssets());
-
+        solve(gray.getNativeObjAddr(), getAssets());
         return gray;
-
-
     }
 
     @Override
@@ -190,15 +187,12 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
     @Override
     public boolean onTouch(View v, MotionEvent event) {
         Log.i(TAG,"onTouch event");
-        // mOpenCvCameraView.findFocus();
+        mOpenCvCameraView.findFocus();
         return false;
     }
 
-
-
-    private native void loadImage(String fileName, long img, AssetManager pAssetManager);
+    //private native void loadImage(String fileName, long img, AssetManager pAssetManager);
+    //private native void solve(long img, AssetManager pAssetManager);
     private native void solve(long img, AssetManager pAssetManager);
-    private native void prepro(long img, AssetManager pAssetManager);
-    private native void getKnn(long jobject, AssetManager pAssetManager);
 
 }
