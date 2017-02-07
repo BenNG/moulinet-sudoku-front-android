@@ -30,7 +30,7 @@ package moulinet.tech.moulinet_sudoku_app;
         import android.view.WindowManager;
         import android.widget.Toast;
 
-public class MainActivity extends Activity implements CvCameraViewListener2, OnTouchListener {
+public class MainActivity extends Activity implements CvCameraViewListener2 {
     private static final String TAG = "OCVSample::Activity";
 
     private Tutorial3View mOpenCvCameraView;
@@ -56,7 +56,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
                 {
                     Log.i(TAG, "OpenCV loaded successfully");
                     mOpenCvCameraView.enableView();
-                    mOpenCvCameraView.setOnTouchListener(MainActivity.this);
                 } break;
                 default:
                 {
@@ -86,6 +85,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
         mOpenCvCameraView.setCvCameraViewListener(this);
 
         mOpenCvCameraView.setMaxFrameSize(640, 480);
+
     }
 
     @Override
@@ -129,24 +129,7 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        List<String> effects = mOpenCvCameraView.getEffectList();
-
-        if (effects == null) {
-            Log.e(TAG, "Color effects are not supported by device!");
-            return true;
-        }
-
-        mColorEffectsMenu = menu.addSubMenu("Color Effect");
-        mEffectMenuItems = new MenuItem[effects.size()];
-
         int idx = 0;
-        ListIterator<String> effectItr = effects.listIterator();
-        while(effectItr.hasNext()) {
-            String element = effectItr.next();
-            mEffectMenuItems[idx] = mColorEffectsMenu.add(1, idx, Menu.NONE, element);
-            idx++;
-        }
-
         mResolutionMenu = menu.addSubMenu("Resolution");
         mResolutionList = mOpenCvCameraView.getResolutionList();
         mResolutionMenuItems = new MenuItem[mResolutionList.size()];
@@ -167,11 +150,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
         Log.i(TAG, "called onOptionsItemSelected; selected item: " + item);
         if (item.getGroupId() == 1)
         {
-            mOpenCvCameraView.setEffect((String) item.getTitle());
-            Toast.makeText(this, mOpenCvCameraView.getEffect(), Toast.LENGTH_SHORT).show();
-        }
-        else if (item.getGroupId() == 2)
-        {
             int id = item.getItemId();
             Size resolution = mResolutionList.get(id);
             mOpenCvCameraView.setResolution(resolution);
@@ -181,14 +159,6 @@ public class MainActivity extends Activity implements CvCameraViewListener2, OnT
         }
 
         return true;
-    }
-
-    @SuppressLint("SimpleDateFormat")
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        Log.i(TAG,"onTouch event");
-        mOpenCvCameraView.findFocus();
-        return false;
     }
 
     //private native void loadImage(String fileName, long img, AssetManager pAssetManager);

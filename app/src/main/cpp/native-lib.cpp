@@ -104,7 +104,7 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_solve(
 
     Mat &img_input = *(Mat *)addrImage;
 
-    Mat preprocessed = preprocess(img_input.clone());
+    Mat preprocessed = preprocess(img_input.clone(), true);
 
     vector<Point> bigestApprox = findBiggestBlob(preprocessed, img_input);
 
