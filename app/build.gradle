@@ -30,7 +30,7 @@ android {
     }
     sourceSets {
     main {
-        assets.srcDirs = ['../sudoku-recognizer/assets']
+        assets.srcDirs = ['../sudoku-recognizer/assets/config']
     }
   }
 }

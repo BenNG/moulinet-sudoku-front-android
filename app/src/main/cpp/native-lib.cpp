@@ -120,7 +120,18 @@ Java_moulinet_tech_moulinet_1sudoku_1app_MainActivity_solve(
         Mat resized;
         resize(finalExtraction, resized, Size(640, 360));
 
-        string initialStateOfTheSudoku = grabNumbers(finalExtraction, svm);
+        string resultTab[81], initialStateOfTheSudoku;
+
+        grabNumbers(finalExtraction, svm, resultTab);
+
+        stringstream solution, ss;
+
+        for (int k = 0; k < 81; k++)
+        {
+            ss << resultTab[k];
+        }
+
+        initialStateOfTheSudoku = ss.str();
 
         if (initialStateOfTheSudoku.find("000000000") != 0)
         {
