@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.4.1)
 set(CMAKE_VERBOSE_MAKEFILE on)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++14")
+set(CMAKE_BUILD_TYPE "Debug")
+set(WITH_OPENCL ON)
 
 set(pathToSudokuLib /keep/Repo/USELESS/_sandbox/cpp/learning-cpp/sudoku-recognizer/src/lib)
 set(pathToProject /keep/Repo/sudoku-front-android)
