@@ -1,4 +1,8 @@
-## sudoku-front-android
+# moulinet-sudoku-front-android
+
+## Demo
+![demo](https://bitbucket.org/repo/zpnRyB/images/2114987004-g4_fast.gif)
+
 ### right after cloning
  - git submodule init && git submodule update
  - copy open-cv-3-1-0-android-sdk/sdk/native/libs in sudoku-front-android/app/src/main/jniLibs/
