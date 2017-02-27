@@ -1,7 +1,8 @@
 # moulinet-sudoku-front-android
 
 ## Demo
-![demo](https://bitbucket.org/repo/zpnRyB/images/2114987004-g4_fast.gif)
+[![demo](https://bitbucket.org/repo/zpnRyB/images/2114987004-g4_fast.gif)](https://goo.gl/vEWN0Q)
+
 
 ### right after cloning
  - git submodule init && git submodule update
